@@ -78,56 +78,172 @@ h1{font-size:1.4rem;margin:0 0 2px;}
 .chip button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:0;}
 .status{font-size:.78rem;color:var(--muted);margin-top:8px;min-height:16px;}
 details summary{cursor:pointer;font-size:.8rem;color:var(--muted);margin-top:16px;}
+
+/* Araç planı v2: animasyon, canlı durum ve hızlı yönetim */
+:root{--ink:#20344b;--soft:#edf4ff;--road:#34445e;--mint:#0bb896}
+body{background:#f3f6fb}
+.wrap{max-width:730px}
+.app-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}
+.app-head h1{font-size:1.45rem;letter-spacing:-.035em}
+.app-head .sub{margin:4px 0 0;font-size:.79rem}
+.live-meta{display:flex;align-items:center;gap:6px;white-space:nowrap;font-size:.73rem;color:var(--muted);border:1px solid var(--line);padding:8px 10px;border-radius:14px;background:var(--card)}
+.live-dot{height:8px;width:8px;display:inline-block;flex:none;border-radius:50%;background:var(--mint);box-shadow:0 0 0 3px rgba(11,184,150,.12)}
+.live-dot.offline{background:#e76b6b;box-shadow:0 0 0 3px rgba(231,107,107,.12)}
+.live-refresh{border:0;color:var(--accent);font-size:.8rem;font-weight:750;cursor:pointer;background:none;padding:4px 0}
+.live-refresh:disabled{opacity:.5;cursor:wait}
+.hero{isolation:isolate;padding:0;min-height:0;border-radius:22px;background:linear-gradient(155deg,#d6ecff,#eff7ff 61%,#dcf6ed);border:1px solid #b9d8f4;box-shadow:0 12px 34px rgba(38,92,156,.12);color:#19324b;animation:none}
+.hero-top{text-align:center;padding:23px 18px 5px;position:relative;z-index:3}
+.hero-eyebrow{font-weight:850;color:#3466aa;font-size:.72rem;letter-spacing:.115em}
+.next-name{display:block;font-size:clamp(1.55rem,5vw,2.25rem);font-weight:850;letter-spacing:-.04em;line-height:1.12;margin:9px auto 4px;max-width:100%;overflow-wrap:anywhere}
+.next-date{font-size:.89rem;font-weight:650;color:#56708c}
+.driver-callout{width:max-content;max-width:88%;margin:12px auto 0;padding:7px 18px;background:#fff;border:1px solid #bfd5f1;color:#285292;font-size:.76rem;font-weight:750;border-radius:999px;box-shadow:0 6px 15px #7198c12b;position:relative}
+.driver-callout:after{content:"";position:absolute;left:calc(50% - 7px);bottom:-7px;width:12px;height:12px;background:#fff;border-right:1px solid #bfd5f1;border-bottom:1px solid #bfd5f1;transform:rotate(45deg)}
+.road-scene{height:215px;position:relative;overflow:hidden}
+.road-scene:before,.road-scene:after{content:"";position:absolute;top:37px;width:78px;height:35px;background:#ffffffa8;border-radius:60px;filter:blur(2px);animation:cloud-move 18s linear infinite}
+.road-scene:before{left:14%}.road-scene:after{left:75%;top:19px;animation-delay:-8s}
+.hills{position:absolute;left:-10%;right:-10%;bottom:45px;height:85px;border-radius:50% 50% 0 0;background:linear-gradient(#b7e6b9,#92dba7);transform:rotate(-2deg)}
+.road{position:absolute;bottom:0;left:0;width:100%;height:56px;background:var(--road);border-top:7px solid #d4dae2}
+.road:before{content:"";display:block;position:absolute;top:18px;left:-50%;height:6px;width:200%;background:repeating-linear-gradient(90deg,#fff0 0 65px,#fff6ca 65px 125px,#fff0 125px 185px);animation:road-pass 2.1s linear infinite}
+.car-illustration{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(94%,470px);z-index:2;filter:drop-shadow(0 9px 6px #182a3740)}
+.car-bounce{animation:car-bob 1.3s ease-in-out infinite alternate}
+.wheel-spoke{transform-box:fill-box;transform-origin:center;animation:wheel-turn 1s linear infinite}
+.hero-tail{position:relative;z-index:2;background:#ffffffba;padding:11px 20px 13px;text-align:center;font-size:.79rem;color:#47637f}
+.day-section{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:13px}
+.day-card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:16px 17px;box-shadow:0 3px 10px #26395108;min-width:0}
+.day-card.today-driver{border-left:4px solid #06b68b}
+.day-card.tomorrow-driver{border-left:4px solid #517cf4}
+.card-eyebrow{color:var(--muted);font-size:.71rem;font-weight:850;letter-spacing:.05em}
+.card-name{font-size:1.17rem;font-weight:850;margin-top:8px;overflow-wrap:anywhere}
+.card-meta{font-size:.76rem;color:var(--muted);margin-top:6px;line-height:1.5}
+.cards{margin-top:13px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card-tip{font-size:.73rem;font-weight:500;color:var(--muted)}
+.admin-area{margin-top:18px}
+.admin-area>summary{margin:0;padding:16px 19px;border-radius:15px;background:var(--card);border:1px solid #d3dded;color:#285292;font-size:.92rem;font-weight:800;list-style:none;display:flex;align-items:center;justify-content:space-between}
+.admin-area>summary::-webkit-details-marker{display:none}
+.admin-area>summary:after{content:"⌄";font-size:1.5rem;line-height:.6}
+.admin-area[open]>summary{border-radius:15px 15px 0 0}
+.admin-area[open]>summary:after{content:"⌃"}
+.admin-area .admin{margin:0;border:1px solid #d3dded;border-top:0;border-radius:0 0 15px 15px;padding:18px}
+.admin .label-strong{font-size:.83rem;font-weight:750;color:var(--text);margin-top:14px}
+.admin .row2{align-items:stretch}
+.admin input,.admin select{min-height:46px;padding:10px 11px;font-size:.93rem}
+.admin button{min-height:42px}
+.quick-dates{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}
+.admin .quick-dates button{margin:0;min-height:36px;background:var(--soft);color:#3063aa;border:1px solid #c9ddfa;border-radius:999px;padding:6px 13px;font-size:.79rem}
+.admin .quick-dates button.active{background:#306fec;color:#fff;border-color:#306fec}
+.admin .primary-save{width:100%;background:linear-gradient(120deg,#286bee,#5a60e8);min-height:49px;font-size:1rem;margin-top:13px}
+.admin .primary-save:disabled,.admin button:disabled{opacity:.55;cursor:wait}
+.admin .preview{margin-top:12px;background:var(--soft);padding:12px;border-radius:11px;color:#44617f;font-size:.82rem;line-height:1.5}
+.admin .preview b{color:#1e4b89}
+.admin .mini-note{margin:4px 0 12px;color:var(--muted);font-size:.73rem;line-height:1.5}
+.admin .advanced-admin{margin-top:20px;border-top:1px solid var(--line);padding-top:8px}
+.admin .advanced-admin>summary{font-weight:750;color:var(--text);padding:10px 0}
+.admin .chip{max-width:100%;font-size:.77rem;white-space:normal;overflow-wrap:anywhere;margin-top:8px}
+.admin .chip button{min-height:0;margin:0}
+.status{min-height:26px;margin-top:12px;font-weight:750}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #78adfd;outline-offset:3px}
+@keyframes road-pass{to{transform:translateX(185px)}}
+@keyframes cloud-move{to{transform:translateX(-65vw)}}
+@keyframes car-bob{to{transform:translateY(-2px)}}
+@keyframes wheel-turn{to{transform:rotate(360deg)}}
+@media(max-width:500px){.day-section{grid-template-columns:1fr}.road-scene{height:190px}.app-head{align-items:flex-start}.live-meta{flex-wrap:wrap;justify-content:flex-end;max-width:148px}.cards{gap:6px}.pcard{padding:10px 5px}.pcard b{font-size:1.1rem}}
+@media(prefers-reduced-motion:reduce){.road:before,.road-scene:before,.road-scene:after,.car-bounce,.wheel-spoke{animation:none!important}}
+
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>🚗 Ortak Araç Planı</h1>
-  <div class="sub" id="subtitle">Yükleniyor…</div>
-  <div class="hero" id="hero"></div>
-  
-  <!-- YARIN KİMİNLE GİDİLECEĞİNİ GÖSTEREN BÖLÜM -->
-  <div class="tomorrow-card" id="tomorrowCard">
-    <div class="tomorrow-info">
-      <div class="t-lbl">📅 YARIN KİMİNLE GİDİYORUZ?</div>
-      <div class="t-val" id="tomorrowWho">Yükleniyor...</div>
+<header class="app-head">
+    <div><h1>🚗 Ortak Araç Planı</h1><p class="sub" id="subtitle">Program yükleniyor…</p></div>
+    <div class="live-meta"><span id="liveDot" class="live-dot"></span><span id="syncStatus">Bağlanıyor…</span><button class="live-refresh" id="refreshBtn" type="button" aria-label="Programı şimdi yenile">↻</button></div>
+  </header>
+  <section class="hero" id="hero" aria-label="Bir sonraki şoför">
+    <div class="hero-top">
+      <div class="hero-eyebrow">BİR SONRAKİ ŞOFÖR</div>
+      <strong class="next-name" id="nextName">Yükleniyor…</strong>
+      <div class="next-date" id="nextDate">Program kontrol ediliyor</div>
+      <div class="driver-callout" id="carName">🚗 Sıradaki sürücü</div>
     </div>
-    <div class="tomorrow-badge" id="tomorrowDriver">🚗 -</div>
-  </div>
+    <div class="road-scene"><div class="hills"></div><div class="road"></div><svg viewBox="0 0 470 220" class="car-illustration" role="img" aria-label="İçinde erkek sürücüsü bulunan hareketli mavi araba" xmlns="http://www.w3.org/2000/svg">
+  <g class="car-bounce">
+    <ellipse cx="237" cy="189" rx="182" ry="10" fill="#162e4a" opacity=".19"/>
+    <path d="M130 123 L166 79 Q177 64 202 64 H292 Q313 64 327 83 L356 123 Z" fill="#1661cb" stroke="#184880" stroke-width="5"/>
+    <path d="M173 121 L200 79 H268 V121 Z" fill="#a9dffa"/>
+    <path d="M275 79 H292 Q307 79 315 93 L336 121 H275 Z" fill="#a9dffa"/>
+    <g>
+      <path d="M287 122 Q285 105 273 106 Q261 106 258 122Z" fill="#ed733f"/>
+      <rect x="265" y="97" width="10" height="16" rx="4" fill="#e5a47c"/>
+      <ellipse cx="270" cy="92" rx="15" ry="18" fill="#f1bc93"/>
+      <path d="M255 90 Q252 70 265 72 Q279 66 286 85 Q277 77 269 80 Q261 87 255 90Z" fill="#28313f"/>
+      <circle cx="277" cy="93" r="1.7" fill="#202a36"/>
+      <path d="M275 101 Q280 104 282 99" fill="none" stroke="#9a554c" stroke-width="1.4"/>
+    </g>
+    <path d="M61 138 Q65 124 86 122 H378 Q408 123 411 142 L406 166 Q402 182 386 182 H82 Q60 178 58 158 Z" fill="#327df3" stroke="#1b54bb" stroke-width="5"/>
+    <path d="M75 149 H394" stroke="#9cc3ff" stroke-width="5" opacity=".62"/>
+    <path d="M235 127 V178" stroke="#235bb8" stroke-width="3" opacity=".7"/>
+    <rect x="244" y="137" width="25" height="5" rx="3" fill="#cfebff"/>
+    <path d="M392 140 H408 Q418 147 413 154 H392Z" fill="#fff1a5"/>
+    <rect x="67" y="144" width="19" height="10" rx="4" fill="#f85a5d"/>
+    <circle cx="135" cy="176" r="28" fill="#1f2d40"/><circle cx="135" cy="176" r="15" fill="#dce7f5"/>
+    <g class="wheel-spoke" stroke="#7389a7" stroke-width="4"><path d="M135 162 V190 M121 176 H149 M125 166 L145 186 M145 166 L125 186"/></g>
+    <circle cx="335" cy="176" r="28" fill="#1f2d40"/><circle cx="335" cy="176" r="15" fill="#dce7f5"/>
+    <g class="wheel-spoke" stroke="#7389a7" stroke-width="4"><path d="M335 162 V190 M321 176 H349 M325 166 L345 186 M345 166 L325 186"/></g>
+  </g>
+</svg></div>
+    <div class="hero-tail" id="nextNote">Güncel programa göre hesaplanır</div>
+  </section>
+  <section class="day-section" aria-label="Günün şoför bilgileri">
+    <div class="day-card today-driver">
+      <div class="card-eyebrow">☀️ BUGÜNÜN ŞOFÖRÜ</div>
+      <div class="card-name" id="todayDriver">Kontrol ediliyor…</div>
+      <div class="card-meta" id="todayInfo">—</div>
+    </div>
+    <div class="day-card tomorrow-driver">
+      <div class="card-eyebrow">📅 YARINKİ ŞOFÖR</div>
+      <div class="card-name" id="tomorrowDriver">Kontrol ediliyor…</div>
+      <div class="card-meta" id="tomorrowWho">—</div>
+    </div>
+  </section>
 
   <div class="cards" id="cards"></div>
-  <div class="section-title">Program</div>
+  <div class="section-title">📅 Sürüş Programı <span class="card-tip">Değişiklikler otomatik yansır</span></div>
   <div class="list" id="scrollWrap">
     <div class="scroll" id="timeline"></div>
     <button class="toggle" id="toggleBtn">Tüm planı göster</button>
   </div>
 
-  <details>
-    <summary>🛠️ Yönetici girişi (tatil ekle / gün ata / refakatçi belirle)</summary>
+  <details class="admin-area" id="adminPanel">
+    <summary>✏️ Şoförü Değiştir / Programı Yönet</summary>
     <div class="admin">
-      <label>PIN</label>
-      <input type="password" id="pinInput" placeholder="Ayarlar sekmesindeki PIN">
-      <label>Tatil / okula gidilmeyen gün ekle</label>
-      <div class="row2"><input type="date" id="holDate"><button id="holBtn">Tatil Ekle</button></div>
-      <div id="holChips"></div>
-      
-      <label>Belirli bir gün için manuel sürücü ata</label>
-      <div class="row2">
-        <input type="date" id="ovDate">
-        <select id="ovPerson"></select>
+      <h3>Kolay Şoför Atama</h3>
+      <p class="mini-note">Tarihi seç, şoförü belirle ve kaydet. Kaydedildiğinde program hemen güncellenir.</p>
+      <label class="label-strong" for="pinInput">🔒 Yönetici PIN</label>
+      <input type="password" id="pinInput" inputmode="numeric" autocomplete="off" placeholder="Mevcut PIN’i gir" maxlength="12">
+      <label class="label-strong" for="ovDate">📆 Hangi gün?</label>
+      <div class="quick-dates" id="quickDates">
+        <button type="button" data-fast-date="today">Bugün</button>
+        <button type="button" data-fast-date="tomorrow">Yarın</button>
+        <button type="button" data-fast-date="next">Sonraki okul günü</button>
       </div>
-      <button class="mini" id="ovBtn">Sürücü Ata</button>
-      <div id="ovChips"></div>
-
-      <label>Yarın / Belirli gün için Refakatçi / Görevli Öğretmen Ata</label>
-      <div class="row2">
-        <input type="date" id="refDate">
-        <input type="text" id="refName" placeholder="Örn: Ahmet Öğretmen">
-      </div>
-      <button class="mini" style="background:var(--hero2);" id="refBtn">Refakatçi Kaydet</button>
-      <div id="refChips"></div>
-
-      <div class="status" id="statusMsg"></div>
+      <input type="date" id="ovDate">
+      <label class="label-strong" for="ovPerson">🚗 Şoför kim olacak?</label>
+      <select id="ovPerson"><option value="">Yükleniyor…</option></select>
+      <div class="preview" id="driverPreview" aria-live="polite">Tarihi ve şoförü seç.</div>
+      <button class="primary-save" id="ovBtn" type="button">✓ Şoförü Kaydet</button>
+      <div class="status" id="statusMsg" role="status" aria-live="polite"></div>
+      <details class="advanced-admin">
+        <summary>⚙️ Tatiller, değişiklikler ve diğer ayarlar</summary>
+        <label class="label-strong" for="holDate">Tatil / okula gidilmeyen gün</label>
+        <div class="row2"><input type="date" id="holDate"><button id="holBtn" type="button">Tatil Ekle</button></div>
+        <div id="holChips"></div>
+        <label class="label-strong">Manuel şoför atamalarını kaldır</label>
+        <div id="ovChips"></div>
+        <label class="label-strong" for="refDate">Refakatçi / görevli öğretmen</label>
+        <div class="row2"><input type="date" id="refDate"><input type="text" id="refName" placeholder="Örn. Ahmet Öğretmen" maxlength="100"></div>
+        <button class="mini" id="refBtn" type="button">Refakatçi Kaydet</button>
+        <div id="refChips"></div>
+      </details>
     </div>
   </details>
 </div>
@@ -187,35 +303,39 @@ function render(){
     `<div class="pcard"><b>${soFar[p]||0}</b><div class="lbl">${p}<br>(dönem sonu: ${usage[p]||0})</div>
      <div class="bar"><i style="width:${((usage[p]||0)/maxTotal*100).toFixed(0)}%"></i></div></div>`).join('');
 
-  // 1. HERO KARTI (Bugün veya Sıradaki)
-  let heroEntry = sched.find(s=>s.date>=tISO && !s.holiday);
-  const heroBox = document.getElementById('hero');
-  if(heroEntry){
-    const label = heroEntry.date===tISO ? 'BUGÜN' : (isTomorrow(heroEntry.date)?'YARIN':heroEntry.date);
-    heroBox.innerHTML = `<div class="tag">${label}</div>
-      <div class="day">${WD[heroEntry.wd]} · ${heroEntry.date}</div>
-      <div class="who"><span class="avatar">🚗</span> ${heroEntry.driver}'nın arabasıyla gidiyoruz</div>
-      <div class="note">Gidenler: ${heroEntry.required.join(', ')}</div>`;
+  // Bir sonraki sürüş, bugün kartından ayrı tutulur.
+  const nextEntry = sched.find(s=>s.date>tISO && !s.holiday);
+  const todayEntry = sched.find(s=>s.date===tISO);
+  const tmwEntry = sched.find(s=>s.date===tmwISO);
+
+  const nextName = document.getElementById('nextName');
+  const nextDate = document.getElementById('nextDate');
+  const carName = document.getElementById('carName');
+  const nextNote = document.getElementById('nextNote');
+  if(nextEntry) {
+    nextName.textContent = nextEntry.driver;
+    nextDate.textContent = WD[nextEntry.wd] + ' · ' + formatDate(nextEntry.date) +
+      (nextEntry.date===tmwISO ? ' · Yarın' : '');
+    carName.textContent = '🚗 ' + nextEntry.driver + ' sürüyor';
+    nextNote.textContent = 'Yolcular: ' + nextEntry.required.join(', ');
   } else {
-    heroBox.innerHTML = `<div class="tag">Plan tamam</div><div class="day">Yarıyıl tatiline ulaşıldı 🎉</div>`;
+    nextName.textContent = 'Planlanan sürüş yok';
+    nextDate.textContent = 'Dönem sonu veya plan dışı';
+    carName.textContent = '🚗 Yeni sürüş bekleniyor';
+    nextNote.textContent = 'Program güncellenince burada görünecek';
   }
 
-  // 2. YARIN KİMİNLE GİDİLECEK ÖZEL BÖLÜMÜ
-  let tmwEntry = sched.find(s=>s.date===tmwISO);
-  const tmwWhoEl = document.getElementById('tomorrowWho');
-  const tmwDriverEl = document.getElementById('tomorrowDriver');
+  document.getElementById('todayDriver').textContent =
+    todayEntry ? (todayEntry.holiday ? 'Tatil / Araç yok' : todayEntry.driver) : 'Bugün sürüş yok';
+  document.getElementById('todayInfo').textContent =
+    todayEntry && !todayEntry.holiday ? 'Yolcular: '+todayEntry.required.join(', ') : formatDate(tISO);
 
-  if(tmwEntry && !tmwEntry.holiday){
-    const refText = tmwEntry.refakatci ? `👨‍🏫 ${tmwEntry.refakatci}` : `Yarınki gidenler: ${tmwEntry.required.join(', ')}`;
-    tmwWhoEl.textContent = refText;
-    tmwDriverEl.textContent = `🚗 Sürücü: ${tmwEntry.driver}`;
-  } else if(tmwEntry && tmwEntry.holiday){
-    tmwWhoEl.textContent = "Yarın tatil / okul yok 🌴";
-    tmwDriverEl.textContent = "Araç yok";
-  } else {
-    tmwWhoEl.textContent = "Hafta sonu veya plan dışı gün";
-    tmwDriverEl.textContent = "-";
-  }
+  document.getElementById('tomorrowDriver').textContent =
+    tmwEntry ? (tmwEntry.holiday ? 'Tatil / Araç yok' : tmwEntry.driver) : 'Yarın sürüş yok';
+  document.getElementById('tomorrowWho').textContent =
+    tmwEntry && !tmwEntry.holiday ?
+      (tmwEntry.refakatci ? 'Görevli: '+tmwEntry.refakatci+' · ' : '') +
+      'Yolcular: ' + tmwEntry.required.join(', ') : formatDate(tmwISO);
 
   // 3. PROGRAM LİSTESİ
   const tl = document.getElementById('timeline');
@@ -234,13 +354,17 @@ function render(){
   document.getElementById('toggleBtn').textContent = expanded ? 'Sadece yaklaşanları göster' : 'Tüm planı göster (geçmiş dahil)';
 
   // ADMIN PANELDEN SEÇİMLER
-  document.getElementById('ovPerson').innerHTML = cfg.people.map(p=>`<option>${p}</option>`).join('');
+  const personSelect = document.getElementById('ovPerson');
+  const previousSelection = personSelect.value;
+  personSelect.replaceChildren(...cfg.people.map(p=>new Option(p,p)));
+  if(cfg.people.includes(previousSelection)) personSelect.value=previousSelection;
+  updateDriverPreview();
   document.getElementById('holChips').innerHTML = (cfg.holidays||[]).map(d=>
-    `<span class="chip">${d}<button data-h="${d}">✕</button></span>`).join('');
-  document.getElementById('ovChips').innerHTML = Object.entries(cfg.overrides||{}).map(([d,p])=>
-    `<span class="chip">${d} → ${p}<button data-o="${d}">✕</button></span>`).join('');
+    `<span class="chip">${safe(d)} <button type="button" aria-label="Tatili sil" data-h="${safe(d)}">✕</button></span>`).join('');
+  document.getElementById('ovChips').innerHTML = Object.entries(cfg.overrides||{}).sort((a,b)=>a[0].localeCompare(b[0])).map(([d,p])=>
+    `<span class="chip">${safe(d)} → ${safe(p)} <button type="button" aria-label="Şoför atamasını sil" data-o="${safe(d)}">✕</button></span>`).join('');
   document.getElementById('refChips').innerHTML = Object.entries(cfg.refakatciMap||{}).map(([d,p])=>
-    `<span class="chip">${d} → 👨‍🏫 ${p}<button data-r="${d}">✕</button></span>`).join('');
+    `<span class="chip">${safe(d)} → 👨‍🏫 ${safe(p)} <button type="button" aria-label="Refakatçi atamasını sil" data-r="${safe(d)}">✕</button></span>`).join('');
 
   document.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>call('removeHoliday',{date:b.dataset.h}));
   document.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>call('removeOverride',{date:b.dataset.o}));
@@ -249,43 +373,145 @@ function render(){
 
 document.getElementById('toggleBtn').addEventListener('click', ()=>{ expanded=!expanded; render(); });
 
-async function load(){
+
+function formatDate(dateISO) {
+  if(!dateISO) return '';
+  const date=parseISO(dateISO);
+  return date.toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'});
+}
+function safe(value){
+  return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+let lastSignature='', loading=false, saving=false, lastDate=todayISO();
+function setConnection(ok,message) {
+  document.getElementById('syncStatus').textContent=message;
+  document.getElementById('liveDot').classList.toggle('offline',!ok);
+}
+function updateDriverPreview(){
+  const date=document.getElementById('ovDate').value;
+  const selected=document.getElementById('ovPerson').value;
+  const preview=document.getElementById('driverPreview');
+  if(!date || !selected || !cfg){preview.textContent='Bir tarih ve şoför seç.';return;}
+  const result=buildSchedule(cfg).sched.find(row=>row.date===date);
+  if(result && result.holiday){
+    preview.textContent='Bu gün mevcut programda tatil veya sürüşsüz görünüyor. Önce tatil ve katılım kurallarını kontrol et.';
+    return;
+  }
+  const old=result?result.driver:'Bu tarihte sürüş yok';
+  preview.textContent=formatDate(date)+' · Şu an: '+old+' → Yeni: '+selected;
+}
+function updateQuickDates(){
+  const date=document.getElementById('ovDate').value;
+  document.querySelectorAll('[data-fast-date]').forEach(btn=>{
+    btn.classList.toggle('active',date===resolveQuickDate(btn.dataset.fastDate));
+  });
+}
+function resolveQuickDate(kind){
+  if(kind==='today')return todayISO();
+  if(kind==='tomorrow')return tomorrowISO();
+  const day=new Date();
+  day.setDate(day.getDate()+1);
+  for(let i=0;i<15;i++){
+    const wd=day.getDay();
+    const key=iso(day);
+    if(wd!==0&&wd!==6&&(!cfg||!(cfg.holidays||[]).includes(key))) return key;
+    day.setDate(day.getDate()+1);
+  }
+  return iso(day);
+}
+function setSelectedDate(date){
+  document.getElementById('ovDate').value=date;
+  updateQuickDates();
+  updateDriverPreview();
+}
+function setBusy(busy){
+  ['ovBtn','holBtn','refBtn'].forEach(id=>document.getElementById(id).disabled=busy);
+}
+async function load(options={}){
+  if(loading || saving || (document.hidden && options.silent))return;
+  loading=true;
+  const btn=document.getElementById('refreshBtn');
+  btn.disabled=true;
+  if(!options.silent) setConnection(true,'Kontrol ediliyor…');
   try{
-    const res = await fetch(APPS_SCRIPT_URL+'?action=schedule');
-    cfg = await res.json();
-    if(cfg.error){ document.getElementById('subtitle').textContent = 'Hata: '+cfg.error; return; }
-    render();
+    const res=await fetch(APPS_SCRIPT_URL+'?action=schedule&_='+Date.now(),{cache:'no-store'});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    if(data.error)throw new Error(data.error);
+    if(!Array.isArray(data.people)||!data.rules||!data.startDate||!data.endDate)throw new Error('Program verisi eksik');
+    const signature=JSON.stringify(data)+'|'+todayISO();
+    if(signature!==lastSignature){
+      cfg=data;
+      lastSignature=signature;
+      lastDate=todayISO();
+      render();
+    }
+    setConnection(true,'Güncel · '+new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}));
   }catch(err){
-    document.getElementById('subtitle').textContent = 'Veri yüklenemedi. APPS_SCRIPT_URL doğru mu?';
+    setConnection(false,'Bağlantı yok');
+    if(!cfg)document.getElementById('subtitle').textContent='Veri yüklenemedi. Yenile düğmesini kullan.';
+    if(!options.silent)document.getElementById('statusMsg').textContent='⚠️ Program kontrol edilemedi: '+err.message;
+  }finally{loading=false;btn.disabled=false;}
+}
+async function call(action,params){
+  if(saving)return;
+  const st=document.getElementById('statusMsg');
+  const pin=document.getElementById('pinInput').value.trim();
+  if(!pin){st.textContent='⚠️ Önce yönetici PIN gir.';document.getElementById('pinInput').focus();return;}
+  if(!cfg){st.textContent='⚠️ Önce programın yüklenmesini bekle.';return;}
+  saving=true;setBusy(true);
+  st.textContent='Kaydediliyor…';
+  try{
+    const qs=new URLSearchParams(Object.assign({action,pin},params));
+    const res=await fetch(APPS_SCRIPT_URL+'?'+qs.toString()+'&_='+Date.now(),{cache:'no-store'});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    if(data.error)throw new Error(data.error);
+    if(!Array.isArray(data.people))throw new Error('Beklenmeyen sunucu yanıtı');
+    cfg=data;
+    lastSignature='';
+    render();
+    setConnection(true,'Güncel · '+new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}));
+    st.textContent='✅ Program kaydedildi ve güncellendi.';
+  }catch(err){st.textContent='❌ Kaydedilemedi: '+err.message;}
+  finally{
+    saving=false;setBusy(false);
+    // Başka cihazlarda yapılan olası güncellemeleri de tekrar kontrol et.
+    load({silent:true});
   }
 }
-
-async function call(action, params){
-  const st = document.getElementById('statusMsg');
-  const pin = document.getElementById('pinInput').value;
-  st.textContent = 'Gönderiliyor…';
-  const qs = new URLSearchParams(Object.assign({action, pin}, params));
-  try{
-    const res = await fetch(APPS_SCRIPT_URL+'?'+qs.toString());
-    const data = await res.json();
-    if(data.error){ st.textContent = '❌ '+data.error; return; }
-    cfg = data; render();
-    st.textContent = '✅ Güncellendi.';
-  }catch(e){ st.textContent = '❌ Bağlantı hatası.'; }
-}
-
 document.getElementById('holBtn').onclick=()=>{
-  const v=document.getElementById('holDate').value;
-  if(v) call('addHoliday',{date:v});
+  const date=document.getElementById('holDate').value;
+  if(!date){document.getElementById('statusMsg').textContent='Bir tatil tarihi seç.';return;}
+  call('addHoliday',{date});
 };
 document.getElementById('ovBtn').onclick=()=>{
-  const v=document.getElementById('ovDate').value, p=document.getElementById('ovPerson').value;
-  if(v) call('setOverride',{date:v, person:p});
+  const date=document.getElementById('ovDate').value;
+  const person=document.getElementById('ovPerson').value;
+  if(!date||!person){document.getElementById('statusMsg').textContent='Tarih ve şoför seç.';return;}
+  if(date<cfg.startDate||date>cfg.endDate){document.getElementById('statusMsg').textContent='⚠️ Seçilen tarih dönem dışında.';return;}
+  call('setOverride',{date,person});
 };
 document.getElementById('refBtn').onclick=()=>{
-  const v=document.getElementById('refDate').value, p=document.getElementById('refName').value;
-  if(v && p) call('setRefakatci',{date:v, person:p});
+  const date=document.getElementById('refDate').value;
+  const person=document.getElementById('refName').value.trim();
+  if(!date||!person){document.getElementById('statusMsg').textContent='Tarih ve görevli adı gir.';return;}
+  call('setRefakatci',{date,person});
 };
+document.getElementById('quickDates').addEventListener('click',evt=>{
+  const btn=evt.target.closest('[data-fast-date]');
+  if(btn)setSelectedDate(resolveQuickDate(btn.dataset.fastDate));
+});
+document.getElementById('ovDate').addEventListener('change',()=>{updateQuickDates();updateDriverPreview();});
+document.getElementById('ovPerson').addEventListener('change',updateDriverPreview);
+document.getElementById('refreshBtn').addEventListener('click',()=>load());
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)load({silent:true});});
+window.addEventListener('focus',()=>load({silent:true}));
+window.addEventListener('online',()=>load({silent:true}));
+setSelectedDate(tomorrowISO());
+document.getElementById('holDate').value=tomorrowISO();
+document.getElementById('refDate').value=tomorrowISO();
+setInterval(()=>load({silent:true}),20000);
 
 load();
 </script>
