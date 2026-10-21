@@ -11,6 +11,8 @@ function doGet(e) {
     if (action === 'removeHoliday') return handleRemoveHoliday(e);
     if (action === 'setOverride') return handleSetOverride(e);
     if (action === 'removeOverride') return handleRemoveOverride(e);
+    if (action === 'setRefakatci') return handleSetRefakatci(e);
+    if (action === 'removeRefakatci') return handleRemoveRefakatci(e);
     if (action === 'sendTomorrow') {
       if (!checkAuth(e)) return jsonResponse({ error: 'yetkisiz - pin yanlış' });
       return jsonResponse({ sonuc: sendTomorrowDriverEmail() });
@@ -83,7 +85,8 @@ function getConfig() {
   return {
     people: people, rules: rules,
     startDate: settings.startDate, endDate: settings.endDate,
-    holidays: holidays, overrides: overrides
+    holidays: holidays, overrides: overrides,
+    refakatciMap: readRefakatciMap(ss)
   };
 }
 
@@ -149,6 +152,59 @@ function handleRemoveOverride(e) {
   }
   SpreadsheetApp.flush();
   notifyChange(date, old);
+  return jsonResponse(getConfig());
+}
+
+// Görevli öğretmen atamaları isteğe bağlı "Refakatciler" sekmesindedir.
+// Eski kurulumlarda sekme yoksa program normal açılmaya devam eder.
+function readRefakatciMap(ss) {
+  var map = {};
+  var sheet;
+  try { sheet = getSheet(ss, 'Refakatciler'); } catch (err) { return map; }
+  var rows = sheet.getDataRange().getValues();
+  for (var i = 1; i < rows.length; i++) {
+    if (rows[i][0] && rows[i][1]) map[fmt(rows[i][0])] = String(rows[i][1]).trim();
+  }
+  return map;
+}
+function refakatciSheet(ss) {
+  try { return getSheet(ss, 'Refakatciler'); }
+  catch (err) {
+    var sheet = ss.insertSheet('Refakatciler');
+    sheet.appendRow(['Tarih', 'Refakatçi']);
+    return sheet;
+  }
+}
+function handleSetRefakatci(e) {
+  if (!checkAuth(e)) return jsonResponse({error:'yetkisiz - pin yanlış'});
+  var date = String(e.parameter.date || '').trim();
+  var name = String(e.parameter.person || '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !name || name.length > 100)
+    return jsonResponse({error:'Geçerli tarih ve görevli adı gerekli'});
+  var sheet = refakatciSheet(SpreadsheetApp.getActiveSpreadsheet());
+  var rows = sheet.getDataRange().getValues();
+  var first = 0;
+  for (var i = 1; i < rows.length; i++) {
+    if (fmt(rows[i][0]) === date) {
+      if (!first) { sheet.getRange(i+1, 2).setValue(name); first = i+1; }
+      else sheet.deleteRow(i+1);
+    }
+  }
+  if (!first) sheet.appendRow([date,name]);
+  SpreadsheetApp.flush();
+  return jsonResponse(getConfig());
+}
+function handleRemoveRefakatci(e) {
+  if (!checkAuth(e)) return jsonResponse({error:'yetkisiz - pin yanlış'});
+  var date = String(e.parameter.date || '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return jsonResponse({error:'Geçersiz tarih'});
+  var sheet;
+  try { sheet = getSheet(SpreadsheetApp.getActiveSpreadsheet(), 'Refakatciler'); }
+  catch (err) { return jsonResponse(getConfig()); }
+  var rows = sheet.getDataRange().getValues();
+  for (var i = rows.length-1; i >= 1; i--)
+    if (fmt(rows[i][0]) === date) sheet.deleteRow(i+1);
+  SpreadsheetApp.flush();
   return jsonResponse(getConfig());
 }
 
